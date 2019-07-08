@@ -12,13 +12,6 @@ const {
 
 class PopUp extends Component {
 
-  handleOk = () => {
-    this.props.onSure && this.props.onSure();
-  }
-  handleCancel = () => {
-    this.props.onClose && this.props.onClose();
-  }
-
   render() {
     const {
       renderDom,

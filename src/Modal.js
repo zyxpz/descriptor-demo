@@ -20,12 +20,17 @@ class PopUp extends Component {
   }
 
   render() {
+    const {
+      renderDom,
+      opts
+    } = this.props;
+
     return (
       <Modal
-        visible
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
-      >弹窗</Modal>
+      {
+        ...opts
+      }
+      >{renderDom}</Modal>
     )
   }
 }

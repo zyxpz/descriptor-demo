@@ -12,12 +12,20 @@ const {
 
 class Home extends Component {
 
-  componentDidMount() {
-    Modal.hide
-  }
-
   click = () => {
-    Modal.popup();
+    Modal.popup(
+      <div>我是弹层</div>,
+      {
+        visible: true,
+        okText: '确定',
+        ok() {
+          console.log('确定')
+        },
+        cancel() {
+          console.log('取消')
+        }
+      }
+    );
   }
 
   render() {

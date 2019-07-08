@@ -11,18 +11,21 @@ export default (opts = {}) => WrapWithView => {
 
   const container = document.createElement('div');
 
-  const render = (opts, show) => {
+  const render = (renderDom, opts) => {
 
     opts = {
-      onCloseSoon: () => {
+      ...opts,
+      onCloseSoon() {
         ReactDom.unmountComponentAtNode(container);
         target.removeChild(container);
       },
-      onSure: (res) => {
+      onOk(res) {
         opts.onCloseSoon();
+        opts.ok(res);
       },
-      onClose: (res) => {
+      onCancel(res) {
         opts.onCloseSoon();
+        opts.cancel(res);
       },
     };
 
@@ -32,7 +35,8 @@ export default (opts = {}) => WrapWithView => {
 
     const element = (
       <Viewer
-        {...opts}
+        renderDom={renderDom}
+        opts={opts}
         ref={instance => comp = instance}
       />
     )
@@ -40,24 +44,16 @@ export default (opts = {}) => WrapWithView => {
     let callBack = () => (comp, opts.onSure, opts.onClose)
 
 
-    if (show) {
-      ReactDom.render(element, container, callBack);
-    }
+    ReactDom.render(element, container, callBack);
   }
 
-  const popUp = (opts = {}) => {
-    render(opts, true);
-  }
-
-  const hide = () => {
-    console.log(1)
+  const popUp = (renderDom, opts = {}) => {
+    render(renderDom, opts);
   }
 
   class Viewer extends Component {
 
     static popup = popUp;
-
-    static hide = render.call(hide);
 
     constructor(params) {
       super(params);
